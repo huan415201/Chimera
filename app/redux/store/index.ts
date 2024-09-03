@@ -5,12 +5,13 @@ import {
   FLUSH,
   PAUSE,
   PERSIST,
+  persistReducer,
+  persistStore,
   PURGE,
   REGISTER,
   REHYDRATE,
-  persistReducer,
-  persistStore,
 } from 'redux-persist';
+import reactotronConfig from '../../../reactotronConfig';
 import { appReducer } from '../reducers';
 
 const persistConfig = {
@@ -32,6 +33,11 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
+  enhancers: getDefaultEnhancers => {
+    const enhancers = getDefaultEnhancers();
+    if (__DEV__) enhancers.concat(reactotronConfig.createEnhancer!());
+    return enhancers;
+  },
 });
 
 export const persistor = persistStore(store);

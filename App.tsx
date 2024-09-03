@@ -4,6 +4,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Layout } from './app/commons';
 import Navigator from './app/navigator';
 import { persistor, store } from './app/redux';
+if (__DEV__) {
+  require('./reactotronConfig');
+}
 
 const App = () => {
   return (
